@@ -1,14 +1,13 @@
 # 1) save file: what+where+time.xlsx
 # 2) Add variable internet speed and do зависимость от нее
-# 3) create log file
-
 
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import openpyxl
 import main
-from main import sl ,writeExc
+import datetime
+from main import sl ,writeExc ,error
 #Simple assignment
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By 
@@ -29,7 +28,7 @@ where = input('where you find this? ')
 
 # log document
 f = open('log.txt', 'w')
-
+f.write(str(datetime.datetime.now())+ '  \|/  '+ 'Start programm')
 
 # excel open
 wb = openpyxl.Workbook()
@@ -70,64 +69,65 @@ for i in range(0, 50):
         # title
         try:
             title = window.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[1]/h1').text
-            print(title)
+            #print(title)
             writeExc(ws,'B',t, title)
         except:
-            print('Not Find')
+            #print('Title = None')
+            error(f, 'not find', str(t-1), 'Title not find')
         
         # subtitle, what is it (national park,park, shop etc)
         try:
             subtitle = window.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[2]/div/div[2]/span[1]/span[1]/button').text
-            #print(subtitle)
         except: 
-            print('havent rate')
+            #print('Subtitle = None')
             subtitle = ''
+            error(f, 'not find', str(t-1), 'Subtitle not find')
         writeExc(ws,'C',t, subtitle)
         
         # rating
         try:
             rateNum = window.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[2]/div/div[1]/span[1]/span/span').text
-            #print(rateNum)
             writeExc(ws,'D',t, rateNum)
         except: 
-            print('havent rate')
+            #print('Rate = None')
             rateNum = 0
             writeExc(ws,'D',t, rateNum)
+            error(f, 'not find', str(t-1), 'Rate not find')
         
         # position
         try:
             position = window.find_element(By.XPATH, '//*[@data-section-id="ad"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
-            #print(position)
         except:
-            print("Position = None")
+            #print("Position = None")
             position = ''
+            error(f, 'not find', str(t-1), 'Position not find')
         writeExc(ws,'E',t, position)
         
         # map positon
         try:
             MapPos = window.find_element(By.XPATH, '//*[@data-section-id="ol"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
-            #print(MapPos)
         except:
-            print("Map position = None")
+            #print("Map position = None")
             MapPos = ''
+            error(f, 'not find', str(t-1), 'Map position not find')
         writeExc(ws,'F',t, MapPos)
         
         # website
         try:
             website = window.find_element(By.XPATH, '//*[@data-section-id="ap"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
-            #print(website)
         except:
-            print("website = None")
+            #print("website = None")
             website = ''
+            error(f, 'not find', str(t-1), 'Website link not find')
         writeExc(ws,'G',t, website)
         
         # phone number
         try:
             phone = window.find_element(By.XPATH, '//*[@data-section-id="pn0"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
-            #print(phone)
         except:
-            print("phone number = None")
+           # print("phone number = None")
             phone = ''
+            error(f, 'not find', str(t-1), 'Phone number not find')
         ws['H'+str(t)]= phone
         
 
@@ -143,8 +143,10 @@ for i in range(0, 50):
         sl(4)
     except:
         print("end")
+        error(f, 'Havent next button', str(t-1), 'next butt not find')
         break
 
-sl(2)
+f.close()
 wb.save("output.xlsx")
+sl(2)
 window.close()
