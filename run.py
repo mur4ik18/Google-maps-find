@@ -74,9 +74,12 @@ for i in range(0, 1):
         ws['D'+str(t)]= rateNum.text
         # position
         try:
-            print(window.find_element(By.XPATH, '//*[@data-section-id="ad"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text)
+            position = window.find_element(By.XPATH, '//*[@data-section-id="ad"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
+            print(position)
         except:
             print("Position = None")
+            position = ''
+        ws['E'+str(t)]= position.text
         # map positon
         try:
             print(window.find_element(By.XPATH, '//*[@data-section-id="ol"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text)
