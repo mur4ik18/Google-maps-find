@@ -34,13 +34,20 @@ sl(3)
 lens = [[]]
 wb = openpyxl.Workbook()
 ws = wb.active
+ws.column_dimensions['B'].width = 50
+ws.column_dimensions['C'].width = 50
+ws.column_dimensions['D'].width = 50
+ws.column_dimensions['E'].width = 50
+ws.column_dimensions['F'].width = 50
+ws.column_dimensions['G'].width = 50
+
 t = 1
 for i in range(0, 1):
     p = window.find_elements_by_xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "section-result-title", " " ))]//span')
     for r in range(0 , len(p)):
         titles = window.find_elements_by_xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "section-result-title", " " ))]//span')
         titles[r].click()
-        sl(4)
+        sl(2)
         t+=1
             # information
         ws['A'+str(t)]= t
@@ -52,15 +59,19 @@ for i in range(0, 1):
         try:
             subtitle = window.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[2]/div/div[2]/span[1]/span[1]/button')
             print(subtitle.text)
-            ws['C'+str(t)]= subtitle 
+            
         except: 
             print('havent rate')
+            subtitle = ''
+        ws['C'+str(t)]= subtitle.text
         # rating
         try:
             rateNum = window.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[2]/div/div[1]/span[1]/span/span')
             print(rateNum.text)
         except: 
             print('havent rate')
+            rateNum = 0
+        ws['D'+str(t)]= rateNum.text
         # position
         try:
             print(window.find_element(By.XPATH, '//*[@data-section-id="ad"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text)
@@ -99,6 +110,6 @@ for i in range(0, 1):
 
 
 
-sl(15)
+sl(2)
 wb.save("output.xlsx")
 window.close()
