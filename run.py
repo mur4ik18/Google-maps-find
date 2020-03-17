@@ -25,7 +25,7 @@ window.get(url)
 # what we find an where
 what = input('what you find? ')
 where = input('where you find this? ')
-
+pages = input('How much pages you need? ')
 # log document
 f = open('log.txt', 'w')
 f.write(str(datetime.datetime.now())+ '  \|/  '+ 'Start programm')
@@ -53,7 +53,7 @@ window.find_element_by_xpath('//*[(@id = "searchbox-searchbutton")]').click()
 sl(3)
 
 t = 1
-for i in range(0, 50):
+for i in range(0, pages):
     p = window.find_elements_by_xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "section-result-title", " " ))]//span')
     for c in range(0 , len(p)):
         sl(1)
