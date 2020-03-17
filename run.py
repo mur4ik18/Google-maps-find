@@ -1,6 +1,6 @@
 # 1) save file: what+where+time.xlsx
 # 2) Add variable internet speed and do зависимость от нее
-
+# 3) create log file
 
 
 
@@ -26,6 +26,10 @@ window.get(url)
 # what we find an where
 what = input('what you find? ')
 where = input('where you find this? ')
+
+# log document
+f = open('log.txt', 'w')
+
 
 # excel open
 wb = openpyxl.Workbook()
@@ -58,6 +62,7 @@ for i in range(0, 50):
         titles[c].click()
         sl(4)
         t+=1
+        print(t)
             # information
         # numbers
         writeExc(ws,'A',t, t-1)
@@ -73,7 +78,7 @@ for i in range(0, 50):
         # subtitle, what is it (national park,park, shop etc)
         try:
             subtitle = window.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[2]/div/div[2]/span[1]/span[1]/button').text
-            print(subtitle)
+            #print(subtitle)
         except: 
             print('havent rate')
             subtitle = ''
@@ -82,7 +87,7 @@ for i in range(0, 50):
         # rating
         try:
             rateNum = window.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[2]/div/div[1]/span[1]/span/span').text
-            print(rateNum)
+            #print(rateNum)
             writeExc(ws,'D',t, rateNum)
         except: 
             print('havent rate')
@@ -92,7 +97,7 @@ for i in range(0, 50):
         # position
         try:
             position = window.find_element(By.XPATH, '//*[@data-section-id="ad"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
-            print(position)
+            #print(position)
         except:
             print("Position = None")
             position = ''
@@ -101,7 +106,7 @@ for i in range(0, 50):
         # map positon
         try:
             MapPos = window.find_element(By.XPATH, '//*[@data-section-id="ol"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
-            print(MapPos)
+            #print(MapPos)
         except:
             print("Map position = None")
             MapPos = ''
@@ -110,7 +115,7 @@ for i in range(0, 50):
         # website
         try:
             website = window.find_element(By.XPATH, '//*[@data-section-id="ap"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
-            print(website)
+            #print(website)
         except:
             print("website = None")
             website = ''
@@ -119,7 +124,7 @@ for i in range(0, 50):
         # phone number
         try:
             phone = window.find_element(By.XPATH, '//*[@data-section-id="pn0"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
-            print(phone)
+            #print(phone)
         except:
             print("phone number = None")
             phone = ''
