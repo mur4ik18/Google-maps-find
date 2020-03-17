@@ -17,7 +17,7 @@ url = 'https://www.google.com/maps/'
 window.get(url)
 
 # what we find an where
-what = 'Shop'
+what = 'Park'
 where = ',CA USA'
 
 # sleep fucntion
@@ -36,18 +36,19 @@ wb = openpyxl.Workbook()
 ws = wb.active
 ws.column_dimensions['B'].width = 50
 ws.column_dimensions['C'].width = 50
-ws.column_dimensions['D'].width = 50
+ws.column_dimensions['D'].width = 10
 ws.column_dimensions['E'].width = 50
 ws.column_dimensions['F'].width = 50
 ws.column_dimensions['G'].width = 50
-
+ws.column_dimensions['H'].width = 50
 t = 1
-for i in range(0, 1):
+for i in range(0, 5):
     p = window.find_elements_by_xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "section-result-title", " " ))]//span')
-    for r in range(0 , len(p)):
+    for c in range(0 , len(p)):
+        sl(1)
         titles = window.find_elements_by_xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "section-result-title", " " ))]//span')
-        titles[r].click()
-        sl(2)
+        titles[c].click()
+        sl(4)
         t+=1
             # information
         ws['A'+str(t)]= t
@@ -79,26 +80,34 @@ for i in range(0, 1):
         except:
             print("Position = None")
             position = ''
-        ws['E'+str(t)]= position.text
+        ws['E'+str(t)]= position
         # map positon
         try:
-            print(window.find_element(By.XPATH, '//*[@data-section-id="ol"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text)
+            MapPos = window.find_element(By.XPATH, '//*[@data-section-id="ol"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
+            print(MapPos)
         except:
             print("Map position = None")
+            MapPos = ''
+        ws['F'+str(t)]= MapPos
         # website
         try:
             website = window.find_element(By.XPATH, '//*[@data-section-id="ap"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
             print(website)
         except:
             print("website = None")
+            website = ''
+        ws['G'+str(t)]= website
         # phone number
         try:
-            print(window.find_element(By.XPATH, '//*[@data-section-id="pn0"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text)
+            phone = window.find_element(By.XPATH, '//*[@data-section-id="pn0"]/div/div/*[@class="section-info-text"]/span[@class="widget-pane-link"]').text
+            print(phone)
         except:
             print("phone number = None")
+            phone = ''
+        ws['H'+str(t)]= phone
         
 
-        sl(0)
+        sl(1)
         window.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/button').click()
         sl(1)
         print("------------------")
