@@ -146,6 +146,7 @@ for i in range(0, 50):
         error(f, 'Havent next button', str(t-1), 'next butt not find')
         break
 
+f.write(str(datetime.datetime.now())+ '  \|/  '+ 'Stop programm')
 f.close()
 wb.save("output.xlsx")
 sl(2)
