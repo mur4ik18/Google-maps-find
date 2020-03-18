@@ -19,3 +19,13 @@ def error(f, log, num, err):
     f.write('\n')
     f.write(err)
     f.write('\n')
+
+
+
+def speed(internet):
+    if internet == 'good':
+        return 50
+    elif internet == 'normal':
+        return 30
+    else :
+        return 15

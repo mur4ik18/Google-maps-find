@@ -1,16 +1,18 @@
-# 1) save file: what+where+time.xlsx
-# 2) Add variable internet speed and do зависимость от нее
-
-
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import openpyxl
 import main
 import datetime
-from main import sl ,writeExc ,error
-#Simple assignment
+from main import sl ,writeExc ,error ,speed
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By 
+
+# what we find an where
+InternetSpeed = input("Your internet speed (bad/normal/good) -")
+what = input('what you find? ')
+where = input('where you find this? ')
+pages = int(input('How much pages you need? '))
+sp = speed(InternetSpeed)
 
 # add chromdriver
 window = Chrome(executable_path='./chromedriver') 
@@ -21,11 +23,6 @@ window.set_window_size(1024, 768)
 url = 'https://www.google.com/maps/'
 window.get(url)
 
-
-# what we find an where
-what = input('what you find? ')
-where = input('where you find this? ')
-pages = input('How much pages you need? ')
 # log document
 f = open('log.txt', 'w')
 f.write(str(datetime.datetime.now())+ '  \|/  '+ 'Start programm')
@@ -43,23 +40,22 @@ main.colWidth(ws,'G',50)
 main.colWidth(ws,'H',50)
 
 # sleep fucntion
-
-sl(1)
+sl(25/sp)
 window.find_element_by_xpath('//*[(@id = "searchboxinput")]').click()
-sl(1)
+sl(25/sp)
 window.find_element_by_xpath('//*[(@id = "searchboxinput")]').send_keys(what + ' ' + where)
-sl(1)
+sl(25/sp)
 window.find_element_by_xpath('//*[(@id = "searchbox-searchbutton")]').click()
-sl(3)
+sl(100/sp)
 
 t = 1
 for i in range(0, pages):
     p = window.find_elements_by_xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "section-result-title", " " ))]//span')
     for c in range(0 , len(p)):
-        sl(1)
+        sl(50/sp)
         titles = window.find_elements_by_xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "section-result-title", " " ))]//span')
         titles[c].click()
-        sl(4)
+        sl(100/sp)
         t+=1
         print(t)
             # information
@@ -131,16 +127,16 @@ for i in range(0, pages):
         ws['H'+str(t)]= phone
         
 
-        sl(1)
+        sl(25/sp)
         window.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/button').click()
-        sl(1)
+        sl(25/sp)
         print("------------------")
 
 
 
     try:    
         window.find_element_by_xpath('//*[@id="n7lv7yjyC35__section-pagination-button-next"]').click()
-        sl(4)
+        sl(100/sp)
     except:
         print("end")
         error(f, 'Havent next button', str(t-1), 'next butt not find')
@@ -148,6 +144,6 @@ for i in range(0, pages):
 
 f.write(str(datetime.datetime.now())+ '  \|/  '+ 'Stop programm')
 f.close()
-wb.save("output.xlsx")
-sl(2)
+wb.save("output/"+what + " " + where + ".xlsx")
+sl(50/sp)
 window.close()
