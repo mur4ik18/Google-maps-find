@@ -4,7 +4,6 @@ import openpyxl
 import main
 import datetime
 from main import sl ,writeExc ,error ,speed
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By 
 
 # what we find an where
@@ -15,7 +14,7 @@ pages = int(input('How much pages you need? '))
 sp = speed(InternetSpeed)
 
 # add chromdriver
-window = Chrome(executable_path='./chromedriver') 
+window = webdriver.Chrome(executable_path='./chromedriver.exe') 
 # window setings
 window.set_window_position(900, 0)
 window.set_window_size(1024, 768)
